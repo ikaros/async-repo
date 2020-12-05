@@ -10,3 +10,4 @@ edition = "2018"
 serde = "1.0.117"
 thiserror = "1.0"
 async-trait = "0.1.42"
+tokio = { version = "0.3", features = ["full"] }

@@ -26,46 +26,41 @@ pub trait AutoKey {
     fn key(&self) -> String;
 }
 
-struct User {
-    id: u64,
-    username: String,
-}
+// impl AutoKey for User {
+//     fn key(&self) -> String {
+//         self.id.to_string()
+//     }
+// }
 
-impl AutoKey for User {
-    fn key(&self) -> String {
-        self.id.to_string()
-    }
-}
+// #[async_trait(?Send)]
+// pub trait RepositoryExt<'a, T>: Repository<T>
+// where
+//     T: AutoKey,
+// {
+//     async fn create_doc(&mut self, doc: T) -> Result<Cas> {
+//         self.create(doc.key(), doc).await
+//     }
 
-#[async_trait(?Send)]
-pub trait RepositoryExt<'a, T>: Repository<T>
-where
-    T: AutoKey,
-{
-    async fn create_doc(&mut self, doc: T) -> Result<Cas> {
-        self.create(doc.key(), doc).await
-    }
+//     async fn update_doc(&mut self, doc: T, cas: Cas) -> Result<Cas> {
+//         self.update(doc.key(), doc, cas).await
+//     }
 
-    async fn update_doc(&mut self, doc: T, cas: Cas) -> Result<Cas> {
-        self.update(doc.key(), doc, cas).await
-    }
+//     async fn delete_doc(&mut self, doc: T, cas: Cas) -> Result<Option<()>> {
+//         self.delete(doc.key(), cas).await
+//     }
+// }
+// impl<D: AutoKey, T: Repository<D>> RepositoryExt<D> for T {}
 
-    async fn delete_doc(&mut self, doc: T, cas: Cas) -> Result<Option<()>> {
-        self.delete(doc.key(), cas).await
-    }
-}
-impl<D: AutoKey, T: Repository<D>> RepositoryExt<D> for T {}
+// struct Document<T> {
+//     cas: Cas,
+//     inner: T,
+// }
 
-struct Document<T> {
-    cas: Cas,
-    inner: T,
-}
-
-impl<T> Document<T> {
-    fn cas(&self) -> Cas {
-        self.cas
-    }
-}
+// impl<T> Document<T> {
+//     fn cas(&self) -> Cas {
+//         self.cas
+//     }
+// }
 
 #[async_trait(?Send)]
 pub trait Repository<T> {
